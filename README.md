@@ -21,7 +21,7 @@ Create a `config.json` that should look like
     "account_sid": "ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", // Twilio account sid
     "auth_token": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", // Twilio account auth token
     "phone_number": "+12061231234", // Twilio phone number
-    "airtable_key": "keyxxxxxxxxxxxxxx" // Airtable secret
+    "airtable_key": "keyxxxxxxxxxxxxxx" // Your airtable key if you have editor access to the airtable
 }
 ```
 
@@ -39,3 +39,4 @@ The notifier scans for sites with new availability and texts people in the zip c
 - Start the flask app with `python app.py` which will run on port 5000
 - Make your localhost public with `ngrok http 5000`
 - Copy your url like `https://58afd968e95a.ngrok.io` into the twilio phone number > configuration > messages > webhook, with `/text` appended. Url should look like `https://58afd968e95a.ngrok.io/text`
+- Now try texting your zip code to the twilio number and you should be signed up and added to the airtable
