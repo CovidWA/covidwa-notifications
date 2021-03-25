@@ -1,0 +1,4 @@
+.vscode
+*.pyc
+config.json
+lastRunAvailableIds.json
