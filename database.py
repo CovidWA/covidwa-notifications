@@ -1,13 +1,12 @@
 import json
+import os
 import requests
 
 
 class Database:
     def __init__(self):
-        with open('config.json') as file:
-            config = json.load(file)
         self.headers = {
-            'Authorization': f'Bearer {config["airtable_key"]}',
+            'Authorization': f'Bearer {os.environ["airtable_key"]}',
             'Content-Type': 'application/json'
         }
         self.url = 'https://api.airtable.com/v0/appiGonw4Dnm3zSD1/Users'
