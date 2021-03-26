@@ -21,6 +21,7 @@ class Notifier():
 
         self.new_available_ids = self.get_new_available_ids()
         print(f'Number of newly available sites: {len(self.new_available_ids)}')
+        self.zip_url_map = {}  # {zip_code: url, ...}
         self.zips_to_notify = self.get_zips_to_notify()
         print(f'Notifying zips: {self.zips_to_notify}')
         self.send_texts()
@@ -69,6 +70,8 @@ class Notifier():
             if self.zip_availability_map[zip_code] > 1:
                 continue  # If there were already appointments in this zip
 
+            url = self.clinic_records[new_available_id]['url']
+            self.zip_url_map[zip_code] = url
             zips_to_notify.append(zip_code)
 
         return zips_to_notify
@@ -79,9 +82,10 @@ class Notifier():
         for user in database.get()['records']:
             zip_code = user['fields']['zip_code']
             if zip_code in self.zips_to_notify:
+                url = self.zip_url_map[zip_code]
                 phone_number = user['fields']['phone_number']
                 # TODO: send more info about the clinic
-                send_text(phone_number, f'There are new appointments in zip code: {zip_code}')
+                send_text(phone_number, f'There are new appointments in zip code: {zip_code}. Sign up with: {url}')
                 print(f'- Notified phone number: {phone_number} in zip code: {zip_code}')
 
     def save_available_ids(self):

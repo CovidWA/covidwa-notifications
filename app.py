@@ -6,8 +6,8 @@ app = Flask(__name__)
 
 
 @app.route('/', methods=['GET', 'POST'])
-def root():
-    return 'Covidwa Notifications'
+def root():  # For testing
+    return '<h1>Covidwa Notifications</h1>'
 
 
 app.route('/text', methods=['GET', 'POST'])(text.respond)
