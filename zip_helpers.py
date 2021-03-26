@@ -4,7 +4,7 @@ import re
 
 def is_valid_zip(zip_code):
     """Returns whether or not the zip code is a valid WA zip code"""
-    with open('../zipLocations.json') as f:
+    with open('zipLocations.json') as f:
         data = json.load(f)
     all_zips = data.keys()
     return zip_code in all_zips

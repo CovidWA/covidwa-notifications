@@ -14,7 +14,7 @@ class Notifier():
         self.clinic_records = {}  # {id: record, ...}
         self.load_clinic_records()
 
-        if not os.path.exists('../lastRunAvailableIds.json'):  # If is first run
+        if not os.path.exists('lastRunAvailableIds.json'):  # If is first run
             # This is done so it doesn't think that all clinics are newly available
             print('First run, initializing lastRunAvailableids.json to reflect current records')
             self.save_available_ids()
@@ -46,7 +46,7 @@ class Notifier():
     def get_new_available_ids(self):
         """Returns a list with ids that are available now but weren't last run"""
         new_available_ids = []
-        with open('../lastRunAvailableIds.json', 'r') as file:
+        with open('lastRunAvailableIds.json', 'r') as file:
             last_available_ids = json.load(file)
 
             for available_id in self.all_availabile_ids:
@@ -86,7 +86,7 @@ class Notifier():
 
     def save_available_ids(self):
         """Stores availabile ids in a file to check in future runs"""
-        with open('../lastRunAvailableIds.json', 'w') as file:
+        with open('lastRunAvailableIds.json', 'w') as file:
             json.dump(self.all_availabile_ids, file)
 
 
