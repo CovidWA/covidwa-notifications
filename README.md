@@ -37,6 +37,6 @@ The notifier scans for sites with new availability and texts people in the zip c
 - Install ngrok from https://ngrok.com
 - `cd src`
 - Start the flask app with `python app.py` which will run on port 5000
-- Make your localhost public with `ngrok http 5000`
-- Copy your url like `https://58afd968e95a.ngrok.io` into the twilio phone number > configuration > messages > webhook, with `/text` appended. Url should look like `https://58afd968e95a.ngrok.io/text`
-- Now try texting your zip code to the twilio number and you should be signed up and added to the airtable
+- Make your localhost public with `ngrok http 5000`. Copy your url: `https://58afd968e95a.ngrok.io`
+- Copy your url into the twilio phone number webhook for text (`https://58afd968e95a.ngrok.io/text`) and call (`https://58afd968e95a.ngrok.io/voice`)
+- Now try calling or texting your zip code to the twilio number and you should be signed up and added to the airtable

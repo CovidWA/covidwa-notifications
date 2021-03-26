@@ -1,4 +1,5 @@
 TODO:
+- Deploy with heroku
+- Send shortened link with text
 - Better notifier conditions, as detailed in TODO's in notifier.py
-- Ability to sign up via voice call
 - Unsubscribe/resubscribe/already subscribed via text

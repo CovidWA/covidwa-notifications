@@ -4,7 +4,7 @@ import requests
 
 class Database:
     def __init__(self):
-        with open('config.json') as file:
+        with open('../config.json') as file:
             config = json.load(file)
         self.headers = {
             'Authorization': f'Bearer {config["airtable_key"]}',
