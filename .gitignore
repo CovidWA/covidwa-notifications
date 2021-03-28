@@ -1,5 +1,5 @@
 .vscode
 *.pyc
-config.json
+.env
 lastRunAvailableIds.json
 venv

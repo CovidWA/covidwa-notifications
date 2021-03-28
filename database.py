@@ -1,3 +1,4 @@
+from dotenv import load_dotenv
 import json
 import os
 import requests
@@ -6,7 +7,7 @@ import requests
 class Database:
     def __init__(self):
         self.headers = {
-            'Authorization': f'Bearer {os.environ["airtable_key"]}',
+            'Authorization': f'Bearer {os.environ["AIRTABLE_KEY"]}',
             'Content-Type': 'application/json'
         }
         self.url = 'https://api.airtable.com/v0/appiGonw4Dnm3zSD1/Users'
@@ -23,4 +24,5 @@ class Database:
         return requests.post(self.url, json.dumps(data), headers=self.headers)
 
 
+load_dotenv()
 database = Database()
