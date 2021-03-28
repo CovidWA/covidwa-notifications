@@ -1,6 +1,8 @@
 from database import database
-from flask import request, jsonify
+from flask import request
+import json
 import os
+import requests
 from sms_api import send_text
 from zip_helpers import extract_zip
 
@@ -47,5 +49,7 @@ if __name__ == '__main__':
         "dryRun": True
     }
     # notify(data)
-    import requests, json
-    requests.post('https://covidwa-notifications.herokuapp.com/notifier', json.dumps(data), headers={'Content-Type': 'application/json'})
+    requests.post(
+        'https://covidwa-notifications.herokuapp.com/notifier',
+        json.dumps(data), headers={'Content-Type': 'application/json'}
+    )

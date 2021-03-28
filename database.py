@@ -23,6 +23,9 @@ class Database:
         ]}
         return requests.post(self.url, json.dumps(data), headers=self.headers)
 
+    def delete(self, record_id):
+        requests.delete(self.url + '/' + record_id, headers=self.headers)
+
 
 load_dotenv()
 database = Database()

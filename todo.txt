@@ -1,5 +1,3 @@
 TODO:
-- Change notifier to api
-- Shorten link
+- resubscribe/already subscribed via text
 - Better notifier conditions, as detailed in TODO's in notifier.py
-- Unsubscribe/resubscribe/already subscribed via text
