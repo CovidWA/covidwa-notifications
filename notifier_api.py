@@ -1,5 +1,5 @@
 from database import database
-from flask import request
+from flask import request, jsonify
 import os
 from sms_api import send_text
 from zip_helpers import extract_zip
@@ -10,9 +10,9 @@ def notify(data=None):
         data = request.json
 
     if not int(os.environ['NOTIFIER_ENABLED']):
-        return
+        return {'statusCode': 200}
     if data['secret'] != os.environ['NOTIFIER_SECRET']:
-        return
+        return {'statusCode': 401, 'body': 'Secret is wrong'}
 
     site = data['site']
     zip_code = extract_zip(site['address'])
@@ -32,14 +32,18 @@ def notify(data=None):
         phone_numbers_notified.append(phone_number)
         print(f'Notified {phone_number} with message "{message}"')
 
+    return {'statusCode': 200}
+
 
 if __name__ == '__main__':
     data = {
         "secret": os.environ['NOTIFIER_SECRET'],
         "site": {
             "name": "Bla in Kent",
-            "address": "19300 108th Ave SE, Kent, WA 98031",
+            "address": "19300 108th Ave SE, Kent, WA 98105",
             "id": "recuSvlxQazPBrLez",
         },
     }
-    notify(data)
+    # notify(data)
+    import requests, json
+    requests.post('https://covidwa-notifications.herokuapp.com/notifier', json.dumps(data), headers={'Content-Type': 'application/json'})
