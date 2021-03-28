@@ -17,6 +17,7 @@ def voice():
 
 
 def voice_gather():
+    """Gather the zip code of the caller"""
     resp = VoiceResponse()
 
     zip_code = request.values['Digits']
@@ -25,11 +26,11 @@ def voice_gather():
         gather = Gather(num_digits=5, action='/gather')
         gather.say('Not a valid Washington zip code, please try again')
         resp.append(gather)
-        return str(resp)
+        return str(resp)  # Redo
 
     say_zip_code = ' '.join(list(zip_code))  # Seperated by spaces
     resp.say(f'You have signed up for vaccine notifications in zip code {say_zip_code}. Thank you and goodbye')
 
-    database.post(request.values.get('From'), zip_code)  # Add user to airtable
+    database.post(request['From'], zip_code)  # Add user to airtable
 
     return str(resp)

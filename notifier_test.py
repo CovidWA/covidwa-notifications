@@ -1,3 +1,4 @@
+"""Tests the /notifier endpoint by sending a post request"""
 from dotenv import load_dotenv
 import json
 import os
@@ -16,7 +17,6 @@ if __name__ == '__main__':
         'dryRun': True
     }
     print(requests.post(
-        # 'https://covidwa-notifications.herokuapp.com/notifier',
-        'http://5f0cf993d236.ngrok.io/notifier',
+        'https://covidwa-notifications.herokuapp.com/notifier',
         json.dumps(data), headers={'Content-Type': 'application/json'}
     ).text)

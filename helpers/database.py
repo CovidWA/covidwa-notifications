@@ -5,6 +5,7 @@ import requests
 
 
 class Database:
+    """Represents the airtable specific for this project containing phone_number & zip_code pairs"""
     def __init__(self):
         self.headers = {
             'Authorization': f'Bearer {os.environ["AIRTABLE_KEY"]}',
@@ -24,6 +25,7 @@ class Database:
         return requests.post(self.url, json.dumps(data), headers=self.headers)
 
     def delete(self, record_id):
+        """Deletes a record based on id"""
         requests.delete(self.url + '/' + record_id, headers=self.headers)
 
 
