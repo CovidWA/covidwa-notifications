@@ -28,7 +28,8 @@ def notify(data=None):
             continue  # Don't notify same person twice
 
         message = f'There are new appointments in zip code: {zip_code} - {site["name"]} {url}'
-        send_text(phone_number, message)
+        if data.get('dryRun', False):
+            send_text(phone_number, message)
         phone_numbers_notified.append(phone_number)
         print(f'Notified {phone_number} with message "{message}"')
 
@@ -43,6 +44,7 @@ if __name__ == '__main__':
             "address": "19300 108th Ave SE, Kent, WA 98105",
             "id": "recuSvlxQazPBrLez",
         },
+        "dryRun": True
     }
     # notify(data)
     import requests, json
