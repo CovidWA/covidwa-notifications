@@ -1,10 +1,10 @@
-from database import database
+from helpers.database import database
+from helpers.zip_helpers import extract_zip
 from flask import request
 from twilio.twiml.messaging_response import MessagingResponse
-from zip_helpers import extract_zip
 
 
-def respond():
+def text():
     from_ = request.values.get('From')
     body = request.values.get('Body')
 

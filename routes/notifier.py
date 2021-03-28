@@ -1,13 +1,13 @@
-from database import database
+from helpers.database import database
+from helpers.zip_helpers import extract_zip
+from helpers.sms_api import send_text
 from flask import request
 import json
 import os
 import requests
-from sms_api import send_text
-from zip_helpers import extract_zip
 
 
-def notify(data=None):
+def notifier(data=None):
     if data is None:
         data = request.json
 
@@ -35,21 +35,4 @@ def notify(data=None):
         phone_numbers_notified.append(phone_number)
         print(f'Notified {phone_number} with message "{message}"')
 
-    return {'statusCode': 200}
-
-
-if __name__ == '__main__':
-    data = {
-        "secret": os.environ['NOTIFIER_SECRET'],
-        "site": {
-            "name": "Bla in Kent",
-            "address": "19300 108th Ave SE, Kent, WA 98105",
-            "id": "recuSvlxQazPBrLez",
-        },
-        "dryRun": True
-    }
-    # notify(data)
-    requests.post(
-        'https://covidwa-notifications.herokuapp.com/notifier',
-        json.dumps(data), headers={'Content-Type': 'application/json'}
-    )
+    return {'statusCode': 200, 'body': str(phone_numbers_notified)}

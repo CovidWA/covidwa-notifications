@@ -1,10 +1,10 @@
-from database import database
+from helpers.database import database
+from helpers.zip_helpers import is_valid_zip
 from flask import request
 from twilio.twiml.voice_response import VoiceResponse, Gather
-from zip_helpers import is_valid_zip
 
 
-def answer():
+def voice():
     resp = VoiceResponse()
 
     gather = Gather(num_digits=5, action='/gather')
@@ -16,7 +16,7 @@ def answer():
     return str(resp)
 
 
-def gather():
+def voice_gather():
     resp = VoiceResponse()
 
     zip_code = request.values['Digits']

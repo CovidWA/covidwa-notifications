@@ -1,7 +1,5 @@
 from flask import Flask
-import text
-import voice
-import notifier_api
+import routes
 
 app = Flask(__name__)
 
@@ -11,12 +9,12 @@ def root():  # For testing
     return '<h1>Covidwa Notifications</h1>'
 
 
-app.route('/text', methods=['GET', 'POST'])(text.respond)
+app.route('/text', methods=['GET', 'POST'])(routes.text)
 
-app.route('/voice', methods=['GET', 'POST'])(voice.answer)
-app.route('/gather', methods=['GET', 'POST'])(voice.gather)
+app.route('/voice', methods=['GET', 'POST'])(routes.voice)
+app.route('/gather', methods=['GET', 'POST'])(routes.voice_gather)
 
-app.route('/notifier', methods=['POST'])(notifier_api.notify)
+app.route('/notifier', methods=['POST'])(routes.notifier)
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
