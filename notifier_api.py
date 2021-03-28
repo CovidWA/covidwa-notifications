@@ -28,7 +28,7 @@ def notify(data=None):
             continue  # Don't notify same person twice
 
         message = f'There are new appointments in zip code: {zip_code} - {site["name"]} {url}'
-        if data.get('dryRun', False):
+        if not data.get('dryRun', False):
             send_text(phone_number, message)
         phone_numbers_notified.append(phone_number)
         print(f'Notified {phone_number} with message "{message}"')
