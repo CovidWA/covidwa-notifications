@@ -45,4 +45,3 @@ class Database:
 
 load_dotenv()
 database = Database()
-print(str(database.get())[:100])
