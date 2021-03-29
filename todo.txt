@@ -1,3 +1,0 @@
-TODO:
-- resubscribe/already subscribed via text
-- Better notifier conditions, as detailed in TODO's in notifier.py
