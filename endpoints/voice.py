@@ -1,9 +1,11 @@
 from helpers.database import database
+from helpers.validate_twilio_request import validate_twilio_request
 from helpers.zip_helpers import is_valid_zip
 from flask import request
 from twilio.twiml.voice_response import VoiceResponse, Gather
 
 
+@validate_twilio_request
 def voice():
     resp = VoiceResponse()
 

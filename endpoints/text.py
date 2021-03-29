@@ -1,9 +1,11 @@
 from helpers.database import database
+from helpers.validate_twilio_request import validate_twilio_request
 from helpers.zip_helpers import extract_zip
 from flask import request
 from twilio.twiml.messaging_response import MessagingResponse
 
 
+@validate_twilio_request
 def text():
     from_ = request.values['From']
     body = request.values['Body']
