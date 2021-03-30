@@ -45,3 +45,5 @@ class Database:
 
 load_dotenv()
 database = Database()
+if __name__ == '__main__':
+    print(database.get())
