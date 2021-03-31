@@ -33,6 +33,6 @@ def voice_gather():
     say_zip_code = ' '.join(list(zip_code))  # Seperated by spaces
     resp.say(f'You have signed up for vaccine notifications in zip code {say_zip_code}. Thank you and goodbye')
 
-    database.post(request['From'], zip_code)  # Add user to airtable
+    database.post(request.values['From'], zip_code)  # Add user to database
 
     return str(resp)

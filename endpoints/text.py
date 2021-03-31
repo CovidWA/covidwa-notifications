@@ -17,7 +17,7 @@ def text():
         resp.message('No valid WA zip code detected. Please try again.')
         return str(resp)
 
-    database.post(from_, zip_code)  # Add user to airtable
+    database.post(from_, zip_code)  # Add user to database
 
     resp = MessagingResponse()
     resp.message('You have successfully subscribed for vaccine availability updates.')

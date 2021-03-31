@@ -17,13 +17,13 @@ def notifier():
     zip_code = extract_zip(site['address'])
 
     phone_numbers_notified = []
-    for user in database.get()['records']:
-        if user['fields']['zip_code'] != zip_code:  # If user not in zip code
+    for user in database.get().values():
+        if user['zip_code'] != zip_code:  # If user not in zip code
             continue
         # TODO: expand to zip codes that are close
 
         url = f'https://cvd.to/i/{site["id"]}'
-        phone_number = user['fields']['phone_number']
+        phone_number = user['phone_number']
         if phone_number in phone_numbers_notified:
             continue  # Don't notify same person twice
 

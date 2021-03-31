@@ -80,11 +80,11 @@ class Notifier():
     def send_texts(self):
         """Sends texts to users based on self.zips_to_notify"""
         print('Users notified:')
-        for user in database.get()['records']:
-            zip_code = user['fields']['zip_code']
+        for user in database.get().values():
+            zip_code = user['zip_code']
             if zip_code in self.zips_to_notify:
                 url = self.zip_url_map[zip_code]
-                phone_number = user['fields']['phone_number']
+                phone_number = user['phone_number']
                 # TODO: send more info about the clinic
                 send_text(phone_number, f'There are new appointments in zip code: {zip_code}. Sign up with: {url}')
                 print(f'- Notified phone number: {phone_number} in zip code: {zip_code}')

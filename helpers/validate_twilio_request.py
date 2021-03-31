@@ -1,5 +1,5 @@
 # https://www.twilio.com/docs/usage/tutorials/how-to-secure-your-flask-app-by-validating-incoming-twilio-requests
-from flask import abort, current_app, request
+from flask import abort, request
 from functools import wraps
 import os
 from twilio.request_validator import RequestValidator
