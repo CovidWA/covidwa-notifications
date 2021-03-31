@@ -12,7 +12,7 @@ if __name__ == '__main__':
         'site': {
             'name': 'Test in Kent',
             'address': '19300 108th Ave SE, Kent, WA 98105',
-            'id': 'recuSvlxQazPBrLez',
+            'id': 'recTkSpSCyMhXYOfo',
         },
         'dryRun': True
     }
