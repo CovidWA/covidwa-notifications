@@ -13,7 +13,7 @@ class Database:
         self.params = {'auth': os.environ['FIREBASE_AUTH']}
 
     def cache(self):
-        print('caching...')
+        print('caching users...')
         with open('users_cache.json', 'w') as f:
             d = {
                 'data': self.firebase.get('users', None, params=self.params),
