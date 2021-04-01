@@ -21,7 +21,7 @@ class Database:
                 'time': time()
             }
             if d['data'] is None:
-                d['data'] = []
+                d['data'] = {}
             json.dump(d, f)
         return d
 
