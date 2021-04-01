@@ -14,7 +14,7 @@ if __name__ == '__main__':
             'address': '19300 108th Ave SE, Kent, WA 98105',
             'id': 'recTkSpSCyMhXYOfo',
         },
-        # 'dryRun': True
+        'dryRun': True
     }
     print(requests.post(
         'https://covidwa-notifications.herokuapp.com/notifier',

@@ -12,30 +12,8 @@ class Database:
         self.firebase = FirebaseApplication(url, None)
         self.params = {'auth': os.environ['FIREBASE_AUTH']}
 
-    def cache(self):
-        print('caching users...')
-        open('notified_before_next_cache.csv', 'w').close()  # Clear file
-        with open('users_cache.json', 'w') as f:
-            d = {
-                'data': self.firebase.get('users', None, params=self.params),
-                'time': time()
-            }
-            if d['data'] is None:
-                d['data'] = {}
-            json.dump(d, f)
-        return d
-
-    def get(self, use_cache=True):
-        if not use_cache:
-            return self.firebase.get('users', None, params=self.params)
-
-        if not os.path.exists('users_cache.json'):
-            self.cache()
-        with open('users_cache.json', 'r') as f:
-            d = json.load(f)
-            if time() - d['time'] > 60:  # If old data
-                d = self.cache()
-            return d['data']
+    def get(self):
+        return self.firebase.get('users', None, params=self.params) or {}
 
     def get_where(self, **kwargs):
         """Returns a user that satisfies condition given by kwarg (e.g. zip_code='12345')"""
@@ -61,4 +39,4 @@ class Database:
 load_dotenv()
 database = Database()
 if __name__ == '__main__':
-    print(database.get(use_cache=False))
+    print(database.get())

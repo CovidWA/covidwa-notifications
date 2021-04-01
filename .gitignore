@@ -3,5 +3,3 @@
 .env
 lastRunAvailableIds.json
 venv
-users_cache.json
-notified_before_next_cache.csv
