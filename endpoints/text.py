@@ -16,8 +16,7 @@ def text():
 
     zip_code = extract_zip(body)
     if zip_code is None:  # If no zip code provided or it's invalid
-        resp = MessagingResponse()
-        resp.message('No valid WA zip code detected. Please try again.')
+        resp = MessagingResponse('No valid WA zip code detected. Please try again.')
         return str(resp)
 
     already_subscribed_response = check_already_subscribed(from_)
@@ -26,8 +25,7 @@ def text():
 
     database.post(from_, zip_code)  # Add user to database
 
-    resp = MessagingResponse()
-    resp.message(
+    resp = MessagingResponse(
         f'You have successfully subscribed for vaccine availability updates in zip code {zip_code}.'
     )
     return str(resp)
@@ -41,13 +39,24 @@ def check_keywords(from_, body):
     for keyword in UNSUBSCRIBE_KEYWORDS:
         if keyword in body.lower():
             # Remove from database
-            for key, user in database.get().items():
-                if user['phone_number'] == from_:
-                    database.delete(key)
+            user = database.get_where(phone_number=from_)
+            if user is not None:
+                database.delete(user['id'])
             return str(MessagingResponse())  # No response needed, twilio handles that
 
     for keyword in RESUBSCRIBE_KEYWORDS:
         if keyword in body.lower():
+            user = database.get_where(phone_number=from_)
+            if user is not None:
+                # If already subscribed, renew subscription
+                if not user['needs_renewal']:  # If we don't need renewal
+                    resp = MessagingResponse('No valid WA zip code detected. Please try again.')
+                    return str(resp)
+
+                database.update(user['id'], needs_renewal=False)
+                body = f'You will continue receiving notifications for zip code {user["zip_code"]}'
+                return str(MessagingResponse(body))
+
             resp = MessagingResponse()
             resp.message('Please send your zip code to resubscribe')
             return str(resp)

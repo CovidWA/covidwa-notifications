@@ -17,21 +17,24 @@ def notifier():
     zip_code = extract_zip(site['address'])
 
     phone_numbers_notified = []
-    for user in database.get().values():
+    for key, user in database.get().items():
         if user['zip_code'] != zip_code:  # If user not in zip code
             continue
-        # TODO: expand to zip codes that are close
 
         url = f'https://cvd.to/i/{site["id"]}'
         phone_number = user['phone_number']
-        if phone_number in phone_numbers_notified:
-            continue  # Don't notify same person twice
 
-        message = f'There are new appointments in zip code: {zip_code} - {site["name"]} {url}'
+        if user['needs_renewal']:
+            continue
+
+        message = f'There are new appointments in zip code: {zip_code} - {site["name"]} {url}. ' \
+            'Reply YES to keep receiving notifications.'
         if not data.get('dryRun', False):  # Can send in dryRun flag to not actually send texts
             send_text(phone_number, message)
-        phone_numbers_notified.append(phone_number)
         print(f'Notified {phone_number} with message "{message}"')
+        phone_numbers_notified.append(phone_number)
+
+        database.put(key, needs_renewal=True)
 
     body = f'Notified {len(phone_numbers_notified)} numbers: {phone_numbers_notified}'
     return {'statusCode': 200, 'body': body}
