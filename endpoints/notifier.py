@@ -34,7 +34,7 @@ def notifier():
         print(f'Notified {phone_number} with message "{message}"')
         phone_numbers_notified.append(phone_number)
 
-        database.put(key, needs_renewal=True)
+        database.update(key, needs_renewal=True)
 
     body = f'Notified {len(phone_numbers_notified)} numbers: {phone_numbers_notified}'
     return {'statusCode': 200, 'body': body}
