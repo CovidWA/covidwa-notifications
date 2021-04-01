@@ -16,7 +16,8 @@ def text():
 
     zip_code = extract_zip(body)
     if zip_code is None:  # If no zip code provided or it's invalid
-        resp = MessagingResponse(body='No valid WA zip code detected. Please try again.')
+        resp = MessagingResponse()
+        resp.message('No valid WA zip code detected. Please try again.')
         return str(resp)
 
     already_subscribed_response = check_already_subscribed(from_)
@@ -61,10 +62,13 @@ def process_resubscribe(from_):
 
         database.update(user['id'], needs_renewal=False)
         print(from_, 'renewed')
-        body = f'You will continue receiving notifications for zip code {user["zip_code"]}'
-        return str(MessagingResponse(body=body))
+        resp = MessagingResponse()
+        resp.message(f'You will continue receiving notifications for zip code {user["zip_code"]}')
+        return str(resp)
 
-    return str(MessagingResponse(body='Please send your zip code to resubscribe'))
+    resp = MessagingResponse()
+    resp.message('Please send your zip code to resubscribe')
+    return str(resp)
 
 
 def check_already_subscribed(from_):
