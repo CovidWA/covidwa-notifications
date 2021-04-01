@@ -14,6 +14,7 @@ class Database:
 
     def cache(self):
         print('caching users...')
+        open('notified_before_next_cache.csv', 'w').close()  # Clear file
         with open('users_cache.json', 'w') as f:
             d = {
                 'data': self.firebase.get('users', None, params=self.params),
