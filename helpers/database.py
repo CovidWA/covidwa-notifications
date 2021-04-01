@@ -22,7 +22,10 @@ class Database:
             json.dump(d, f)
         return d
 
-    def get(self):
+    def get(self, use_cache=True):
+        if not use_cache:
+            return self.firebase.get('users', None, params=self.params)
+
         if not os.path.exists('users_cache.json'):
             self.cache()
         with open('users_cache.json', 'r') as f:
@@ -31,9 +34,22 @@ class Database:
                 d = self.cache()
             return d['data']
 
-    def post(self, phone_number, zip_code):
-        d = {'phone_number': phone_number, 'zip_code': zip_code}
+    def get_where(self, **kwargs):
+        """Returns a user that satisfies condition given by kwarg (e.g. zip_code='12345')"""
+        assert len(kwargs) == 1
+        match_k, match_v = list(kwargs.items())[0]
+        for key, user in self.get().items():
+            user['id'] = key
+            if user[match_k] == match_v:
+                return user
+
+    def post(self, phone_number, zip_code, needs_renewal=False):
+        d = {'phone_number': phone_number, 'zip_code': zip_code, 'needs_renewal': needs_renewal}
         self.firebase.post('users', d, params=self.params)
+
+    def update(self, id, **kwargs):
+        for key, value in kwargs.items():
+            self.firebase.put('users', f'{id}/{key}', value, params=self.params)
 
     def delete(self, id):
         self.firebase.delete('users', id, params=self.params)
@@ -42,4 +58,4 @@ class Database:
 load_dotenv()
 database = Database()
 if __name__ == '__main__':
-    print(database.get())
+    print(database.get(use_cache=False))
