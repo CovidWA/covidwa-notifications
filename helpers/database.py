@@ -21,7 +21,7 @@ class Database:
         self.firebase.delete('users', id, params=self.params)
 
 
+load_dotenv()
 database = Database()
 if __name__ == '__main__':
-    load_dotenv()
     print(database.get())

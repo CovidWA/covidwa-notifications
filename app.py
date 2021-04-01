@@ -1,9 +1,7 @@
-from dotenv import load_dotenv
 from flask import Flask
 import endpoints
 
 app = Flask(__name__)
-load_dotenv()
 
 # For testing
 app.route('/', methods=['GET', 'POST'])(lambda: '<h1>Covidwa Notifications</h1>')
