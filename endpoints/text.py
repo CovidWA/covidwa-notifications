@@ -51,12 +51,16 @@ def check_keywords(from_, body):
 
 
 def process_resubscribe(from_):
+    notified_before_next_cache = open('notified_before_next_cache.csv').read().split(',')
+
     user = database.get_where(phone_number=from_)
     if user is not None:  # If already subscribed, renew subscription
-        if not user['needs_renewal']:  # If we don't need renewal
+        if not user['needs_renewal'] and user['phone_number'] not in notified_before_next_cache:
+            # If user doesn't need renewal
             return str(MessagingResponse())
 
         database.update(user['id'], needs_renewal=False)
+        print(from_, 'renewed')
         body = f'You will continue receiving notifications for zip code {user["zip_code"]}'
         return str(MessagingResponse(body=body))
 
