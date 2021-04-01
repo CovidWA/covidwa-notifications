@@ -20,7 +20,7 @@ def text():
         resp.message('No valid WA zip code detected. Please try again.')
         return str(resp)
 
-    already_subscribed_response = check_already_subscribed(from_)
+    already_subscribed_response = check_already_subscribed(from_, zip_code)
     if already_subscribed_response is not None:
         return already_subscribed_response
 
@@ -69,15 +69,14 @@ def process_resubscribe(from_):
     return str(resp)
 
 
-def check_already_subscribed(from_):
-    db = database.get()
-    users = db.values() if db is not None else []
-    for user in users:
+def check_already_subscribed(from_, zip_code):
+    for key, user in database.get().items():
         if user['phone_number'] == from_:  # If already subscribed
             resp = MessagingResponse()
             resp.message(
-                f'You are already subscribed for notifications in zip code {user["zip_code"]}. '
-                'If you wish to change your zip code, you can unsubscribe then and resubscribe. '
-                'Reply HELP for more info'
+                f'You have switched your zip code from {user["zip_code"]} to {zip_code}'
             )
+
+            database.update(key, zip_code=zip_code)
+
             return str(resp)
