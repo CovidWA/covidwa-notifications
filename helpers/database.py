@@ -20,6 +20,8 @@ class Database:
                 'data': self.firebase.get('users', None, params=self.params),
                 'time': time()
             }
+            if d['data'] is None:
+                d['data'] = []
             json.dump(d, f)
         return d
 
