@@ -1,10 +1,13 @@
-from helpers import database, is_valid_zip, validate_twilio_request
-from flask import request
+from helpers import database, is_valid_zip, get_balance, validate_twilio_request
+from flask import abort, request
 from twilio.twiml.voice_response import VoiceResponse, Gather
 
 
 @validate_twilio_request
 def voice():
+    if get_balance() <= 0:
+        return abort(503)
+
     resp = VoiceResponse()
 
     gather = Gather(num_digits=5, action='/gather')

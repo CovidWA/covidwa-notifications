@@ -1,10 +1,13 @@
-from helpers import database, extract_zip, validate_twilio_request
-from flask import request
+from helpers import database, extract_zip, get_balance, validate_twilio_request
+from flask import abort, request
 from twilio.twiml.messaging_response import MessagingResponse
 
 
 @validate_twilio_request
 def text():
+    if get_balance() <= 0:
+        return abort(503)
+
     from_ = request.values['From']
     body = request.values['Body']
 
