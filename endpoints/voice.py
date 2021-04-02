@@ -5,8 +5,8 @@ from twilio.twiml.voice_response import VoiceResponse, Gather
 
 @validate_twilio_request
 def voice():
-    if get_balance() <= 30:
-        return abort(503)
+    # if get_balance() <= 30:
+    #     return abort(503)
 
     resp = VoiceResponse()
 
