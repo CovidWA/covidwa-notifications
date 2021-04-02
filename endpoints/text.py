@@ -5,7 +5,7 @@ from twilio.twiml.messaging_response import MessagingResponse
 
 @validate_twilio_request
 def text():
-    if get_balance() <= 0:
+    if get_balance() <= 30:
         return abort(503)
 
     from_ = request.values['From']
