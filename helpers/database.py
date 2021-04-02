@@ -1,8 +1,6 @@
 from dotenv import load_dotenv
 from firebase import FirebaseApplication
-import json
 import os
-from time import time
 
 
 class Database:

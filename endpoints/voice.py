@@ -1,6 +1,4 @@
-from helpers.database import database
-from helpers.validate_twilio_request import validate_twilio_request
-from helpers.zip_helpers import is_valid_zip
+from helpers import database, is_valid_zip, validate_twilio_request
 from flask import request
 from twilio.twiml.voice_response import VoiceResponse, Gather
 
