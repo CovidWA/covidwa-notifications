@@ -1,5 +1,5 @@
 # https://www.twilio.com/docs/usage/tutorials/how-to-secure-your-flask-app-by-validating-incoming-twilio-requests
-from flask import abort, request
+from flask import abort, current_app, request
 from functools import wraps
 import os
 from twilio.request_validator import RequestValidator
@@ -18,7 +18,7 @@ def validate_twilio_request(f):
             request.headers.get('X-TWILIO-SIGNATURE', ''))
 
         # Call decorated function if it's valid and return a 403 error if not
-        if request_valid:
+        if request_valid or current_app.debug:
             return f(*args, **kwargs)
         else:
             return abort(403)

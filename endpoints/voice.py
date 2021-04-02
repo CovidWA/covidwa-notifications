@@ -1,4 +1,3 @@
-from .common import check_already_subscribed
 from helpers import database, is_valid_zip, get_balance, validate_twilio_request
 from flask import abort, request
 from twilio.twiml.voice_response import VoiceResponse, Gather
@@ -43,3 +42,18 @@ def voice_gather():
     database.post(from_, zip_code)  # Add user to database
 
     return str(resp)
+
+
+def check_already_subscribed(from_, zip_code):
+    for key, user in database.get().items():
+        if user['phone_number'] == from_:  # If already subscribed
+            resp = VoiceResponse()
+            say_zip_code = ' '.join(list(user["zip_code"]))  # Seperated by spaces
+            say_new_zip_code = ' '.join(list(zip_code))  # Seperated by spaces
+            resp.say(
+                f'You have switched your zip code from {say_zip_code} to {say_new_zip_code}. Thank you and goodbye'
+            )
+
+            database.update(key, zip_code=zip_code)
+
+            return str(resp)
