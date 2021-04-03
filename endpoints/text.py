@@ -1,5 +1,6 @@
 from helpers import database, extract_zip, get_balance, validate_twilio_request
 from flask import abort, request
+import requests
 from twilio.twiml.messaging_response import MessagingResponse
 
 
@@ -19,6 +20,11 @@ def text():
     if zip_code is None:  # If no zip code provided or it's invalid
         resp = MessagingResponse()
         resp.message('No valid WA zip code detected. Please try again.')
+        return str(resp)
+
+    if not has_locations(zip_code):
+        resp = MessagingResponse()
+        resp.message('Sorry, there are no tracked locations in that zip code. Please try a different zip code')
         return str(resp)
 
     already_subscribed_response = check_already_subscribed(from_, zip_code)
@@ -81,3 +87,11 @@ def check_already_subscribed(from_, zip_code):
             database.update(key, zip_code=zip_code)
 
             return str(resp)
+
+
+def has_locations(zip_code):
+    data = requests.get('https://api.covidwa.com/v1/get').json()['data']
+    for location in data:
+        if extract_zip(location.get('address', '')) == zip_code:
+            return True
+    return False
