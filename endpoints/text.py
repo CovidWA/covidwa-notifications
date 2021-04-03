@@ -29,7 +29,7 @@ def text():
 
     resp = MessagingResponse()
     resp.message(
-        f'You have successfully subscribed for vaccine availability updates in zip code {zip_code}.'
+        f'You have successfully subscribed for CovidWA vaccine availability updates in zip code {zip_code}.'
     )
     return str(resp)
 
