@@ -26,7 +26,7 @@ def notifier():
         if user['needs_renewal']:
             continue  # If already notified and not renewed
 
-        message = f'[CovidWA] New availablity for {zip_code}: {site["name"]} {url}' \
+        message = f'[CovidWA] New availablity for {zip_code}: {site["name"]} {url}. ' \
             'Reply YES to keep receiving notifications.'
         if not data.get('dryRun', False):  # Can send in dryRun flag to not actually send texts
             send_text(phone_number, message)
