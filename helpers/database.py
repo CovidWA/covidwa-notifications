@@ -37,4 +37,11 @@ class Database:
 load_dotenv()
 database = Database()
 if __name__ == '__main__':
-    print(database.get())
+    users = database.get()
+    renewed = 0
+    for user in users.values():
+        if not user['needs_renewal']:
+            renewed += 1
+    print('total users:', len(users))
+    print('renewed:', renewed)
+    print('not renewed:', len(users) - renewed)
