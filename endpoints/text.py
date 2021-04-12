@@ -1,3 +1,4 @@
+from endpoints.notifier import NUM_TO_SEND
 from helpers import database, extract_zip, get_balance, validate_twilio_request
 from flask import abort, request
 import requests
@@ -65,7 +66,7 @@ def process_resubscribe(from_):
             # If user doesn't need renewal
             return str(MessagingResponse())
 
-        database.update(user['id'], needs_renewal=False)
+        database.update(user['id'], needs_renewal=False, counter_to_renew=NUM_TO_SEND)
         print(from_, 'renewed')
         resp = MessagingResponse()
         resp.message(f'You will continue receiving notifications for zip code {user["zip_code"]}')

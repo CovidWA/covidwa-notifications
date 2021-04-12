@@ -2,6 +2,8 @@ from dotenv import load_dotenv
 from firebase import FirebaseApplication
 import os
 
+from endpoints.notifier import NUM_TO_SEND
+
 
 class Database:
     """Represents the Firebase specific for this project containing phone_number & zip_code pairs"""
@@ -17,13 +19,12 @@ class Database:
         """Returns a user that satisfies condition given by kwarg (e.g. zip_code='12345')"""
         assert len(kwargs) == 1
         match_k, match_v = list(kwargs.items())[0]
-        for key, user in self.get().items():
-            user['id'] = key
-            if user[match_k] == match_v:
-                return user
+        query = {'orderBy': match_k, 'equalTo': match_v}
+        return self.firebase.get('users', None, params=query.update(self.params)) or {}
 
-    def post(self, phone_number, zip_code, needs_renewal=False):
-        d = {'phone_number': phone_number, 'zip_code': zip_code, 'needs_renewal': needs_renewal}
+    def post(self, phone_number, zip_code, needs_renewal=False, counter_to_renew=NUM_TO_SEND):
+        d = {'phone_number': phone_number, 'zip_code': zip_code, 'needs_renewal': needs_renewal,
+             'counter_to_renew': counter_to_renew}
         self.firebase.post('users', d, params=self.params)
 
     def update(self, id, **kwargs):
