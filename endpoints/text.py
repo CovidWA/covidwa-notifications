@@ -85,6 +85,8 @@ def check_already_subscribed(from_, zip_code):
             )
 
             database.update(key, zip_code=zip_code)
+            if user['needs_renewal']:
+                database.update(key, needs_renewal=False)
 
             return str(resp)
 
