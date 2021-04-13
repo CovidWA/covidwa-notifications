@@ -19,8 +19,9 @@ class Database:
         """Returns a user that satisfies condition given by kwarg (e.g. zip_code='12345')"""
         assert len(kwargs) == 1
         match_k, match_v = list(kwargs.items())[0]
-        query = {'orderBy': match_k, 'equalTo': match_v}
-        return self.firebase.get('users', None, params=query.update(self.params)) or {}
+        query = {'orderBy': f'"{match_k}"', 'equalTo': f'"{match_v}"'}
+        query.update(self.params)
+        return self.firebase.get('users', None, params=query) or {}
 
     def post(self, phone_number, zip_code, needs_renewal=False, counter_to_renew=NUM_TO_SEND):
         d = {'phone_number': phone_number, 'zip_code': zip_code, 'needs_renewal': needs_renewal,
@@ -45,4 +46,3 @@ if __name__ == '__main__':
             renewed += 1
     print('total users:', len(users))
     print('renewed:', renewed)
-    print('not renewed:', len(users) - renewed)
