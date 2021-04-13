@@ -13,12 +13,12 @@ def extract_zip(s):
         if is_valid_zip(match):
             return match
 
-DEFAULT_NEARBY_COORD = 0.005  # Roughly 5 miles
+DEFAULT_NEARBY_COORD = 0.07  # Roughly 5 miles
 def get_closest_zips(zip, distance=DEFAULT_NEARBY_COORD):
     """Returns a list of nearby zips, including the input zip"""
     long, lat = ALL_ZIPS[zip]
     zips = []
     for zip2, coord in ALL_ZIPS.items():
-        if (abs(coord[0]-long)**2 + abs(coord[1]-lat)**2 < distance):
+        if (abs(coord[0]-long)**2 + abs(coord[1]-lat)**2 < distance**2):
             zips.append(zip2)
     return zips
