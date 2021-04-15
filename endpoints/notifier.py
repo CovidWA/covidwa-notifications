@@ -20,7 +20,7 @@ def notifier():
 
     for zip_code in all_zips:
         for key, user in database.get_where(zip_code=zip_code).items():
-            if user['counter_to_renew']:
+            if 'counter_to_renew' in user:
                 counter_to_renew = user['counter_to_renew']
             else:
                 # Deal with legacy users who don't have this counter set
