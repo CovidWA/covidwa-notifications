@@ -1,6 +1,10 @@
 from dotenv import load_dotenv
 from firebase import FirebaseApplication
 import os
+if __name__ != '__main__':
+    from constants import NUM_TO_SEND
+else:
+    NUM_TO_SEND = 3
 
 
 class Database:
@@ -17,13 +21,13 @@ class Database:
         """Returns a user that satisfies condition given by kwarg (e.g. zip_code='12345')"""
         assert len(kwargs) == 1
         match_k, match_v = list(kwargs.items())[0]
-        for key, user in self.get().items():
-            user['id'] = key
-            if user[match_k] == match_v:
-                return user
+        query = {'orderBy': f'"{match_k}"', 'equalTo': f'"{match_v}"'}
+        query.update(self.params)
+        return self.firebase.get('users', None, params=query) or {}
 
-    def post(self, phone_number, zip_code, needs_renewal=False):
-        d = {'phone_number': phone_number, 'zip_code': zip_code, 'needs_renewal': needs_renewal}
+    def post(self, phone_number, zip_code, needs_renewal=False, counter_to_renew=NUM_TO_SEND):
+        d = {'phone_number': phone_number, 'zip_code': zip_code, 'needs_renewal': needs_renewal,
+             'counter_to_renew': counter_to_renew}
         self.firebase.post('users', d, params=self.params)
 
     def update(self, id, **kwargs):
@@ -44,4 +48,3 @@ if __name__ == '__main__':
             renewed += 1
     print('total users:', len(users))
     print('renewed:', renewed)
-    print('not renewed:', len(users) - renewed)
