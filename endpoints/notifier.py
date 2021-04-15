@@ -1,10 +1,9 @@
 from helpers import database, extract_zip, send_text
 from flask import request
 import os
-
 from helpers.zip_helpers import get_closest_zips
+from constants import NUM_TO_SEND
 
-NUM_TO_SEND = 3  # Default messages to send before needing to renew
 
 def notifier():
     data = request.json

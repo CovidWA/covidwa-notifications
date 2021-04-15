@@ -49,9 +49,9 @@ def check_keywords(from_, body):
     for keyword in UNSUBSCRIBE_KEYWORDS:
         if keyword in body.lower():
             # Remove from database
-            user = database.get_where(phone_number=from_).values()[0]
+            user_id, user = list(database.get_where(phone_number=from_).items())[0]
             if user is not None:
-                database.delete(user['id'])
+                database.delete(user_id)
             return str(MessagingResponse())  # No response needed, twilio handles that
 
     for keyword in RESUBSCRIBE_KEYWORDS:
@@ -60,13 +60,14 @@ def check_keywords(from_, body):
 
 
 def process_resubscribe(from_):
-    user = database.get_where(phone_number=from_).values()[0]
-    if user is not None:  # If already subscribed, renew subscription
+    user_find_results = list(database.get_where(phone_number=from_).items())
+    if user_find_results != []:  # If already subscribed, renew subscription
+        user_id, user = user_find_results[0]
         if not user['needs_renewal']:
             # If user doesn't need renewal
             return str(MessagingResponse())
 
-        database.update(user['id'], needs_renewal=False, counter_to_renew=NUM_TO_SEND)
+        database.update(user_id, needs_renewal=False, counter_to_renew=NUM_TO_SEND)
         print(from_, 'renewed')
         resp = MessagingResponse()
         resp.message(f'You will continue receiving notifications for zip code {user["zip_code"]}')
