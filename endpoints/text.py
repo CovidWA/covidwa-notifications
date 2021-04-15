@@ -49,7 +49,7 @@ def check_keywords(from_, body):
     for keyword in UNSUBSCRIBE_KEYWORDS:
         if keyword in body.lower():
             # Remove from database
-            user = database.get_where(phone_number=from_)
+            user = database.get_where(phone_number=from_).values()[0]
             if user is not None:
                 database.delete(user['id'])
             return str(MessagingResponse())  # No response needed, twilio handles that
@@ -60,7 +60,7 @@ def check_keywords(from_, body):
 
 
 def process_resubscribe(from_):
-    user = database.get_where(phone_number=from_)
+    user = database.get_where(phone_number=from_).values()[0]
     if user is not None:  # If already subscribed, renew subscription
         if not user['needs_renewal']:
             # If user doesn't need renewal

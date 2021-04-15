@@ -1,8 +1,10 @@
 from dotenv import load_dotenv
 from firebase import FirebaseApplication
 import os
-
-from endpoints.notifier import NUM_TO_SEND
+if __name__ != '__main__':
+    from endpoints.notifier import NUM_TO_SEND
+else:
+    NUM_TO_SEND = 3
 
 
 class Database:
