@@ -33,7 +33,7 @@ def notifier():
 
             url = f'https://cvd.to/i/{site["id"]}'
             phone_number = user['phone_number']
-            message = f'[CovidWA] New availablity for {zip_code}: {site["name"]} {url}'
+            message = f'[CovidWA] New availability for {zip_code}: {site["name"]} {url}'
             if counter_to_renew == 1:
                 # This is their last message, user needs to re-subscribe
                 message += '. Reply YES to keep receiving notifications.'
