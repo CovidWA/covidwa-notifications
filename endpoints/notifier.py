@@ -33,10 +33,10 @@ def notifier():
 
             url = f'https://cvd.to/i/{site["id"]}'
             phone_number = user['phone_number']
-            message = f'[CovidWA] New availablity for {zip_code}: {site["name"]} {url}.'
+            message = f'[CovidWA] New availablity for {zip_code}: {site["name"]} {url}'
             if counter_to_renew == 1:
                 # This is their last message, user needs to re-subscribe
-                message += ' Reply YES to keep receiving notifications.'
+                message += '. Reply YES to keep receiving notifications.'
             if not data.get('dryRun', False):  # Can send in dryRun flag to not actually send texts
                 send_text(phone_number, message)
             print(f'Notified {phone_number} with message "{message}"')
