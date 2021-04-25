@@ -29,7 +29,11 @@ def notifier():
                 else:
                     counter_to_renew = NUM_TO_SEND
             if counter_to_renew < 1:
-                continue
+                # Temporary: deal with a bug that didn't properly reset counter
+                if not user['needs_renewal']:
+                    counter_to_renew = NUM_TO_SEND
+                else:
+                    continue
 
             url = f'https://cvd.to/i/{site["id"]}'
             phone_number = user['phone_number']
