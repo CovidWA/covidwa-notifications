@@ -86,7 +86,7 @@ def check_already_subscribed(from_, zip_code):
                 f'You have switched your zip code from {user["zip_code"]} to {zip_code}'
             )
 
-            database.update(key, zip_code=zip_code)
+            database.update(key, zip_code=zip_code, counter_to_renew=NUM_TO_SEND)
             if user['needs_renewal']:
                 database.update(key, needs_renewal=False)
 
